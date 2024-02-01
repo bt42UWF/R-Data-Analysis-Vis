@@ -1,0 +1,59 @@
+# R Tidyverse script   
+# Author: Belanna Torres
+# Created: January 11, 2024
+
+# Simple R Code that:
+# loads the tidyverse package, loads the HairEyeColor dataset, 
+# tidies the data, group, summarize, and arrange the data, 
+# displays the data, creates a bar plot using ggplot to visualize 
+# mean frequency of hair and eye color combinations.
+#------------------------------------------------------------------
+
+# Install Tidyverse Package
+install.packages("tidyverse")
+library(tidyverse)
+# dplyr: manipulating data.frame
+# purrr: working with functions
+# ggplot2: visualization
+
+# data packages
+install.packages("dslabs")
+library(dslabs)
+
+# Load HairEyeColor dataset
+data("HairEyeColor")
+
+# Convert the table to a data frame
+hair_eye_data <- as.data.frame(HairEyeColor)
+
+# Display the first few rows of the dataset
+head(hair_eye_data)
+
+# Use the pipe operator to perform operations
+# Group the data by the columns Sex, Hair, and Eye
+# Calculate three summary statistics for each group and create new columns
+hair_eye_summary <- hair_eye_data %>%
+  group_by(Sex, Hair, Eye) %>%
+  summarise(mean_frequency = mean(Freq), # mean of the freq column within each group
+            total_frequency = sum(Freq), # sum of the freq column within each group
+            count = n())                 # number of rows within each group
+
+# Arrange based on values of Sex, Hair, and Eye column
+hair_eye_summary <- hair_eye_summary %>%
+  arrange(Sex, Hair, Eye)
+
+# Display the summarized data
+print(hair_eye_summary)
+
+# Visualize the data
+# Bar plot of the mean frequency of hair and eye color combinations
+# x-axis is Eye, y-axis is mean_frequency, bars are based on the Hair column
+ggplot(hair_eye_summary, aes(x = Eye, y = mean_frequency, fill = Hair)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "HairEyeColor Dataset Summary",
+       x = "Eye Color",
+       y = "Mean Frequency") +
+  theme_minimal()
+
+
+
