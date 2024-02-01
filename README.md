@@ -2,6 +2,8 @@
 
 ### This R script is an analysis of the HairEyeColor dataset using the tidyverse package in R. 
 
+*This code is practice from a class assignment.*
+
 Here's a breakdown of what each part of the code does:
 
 1. Installation and Loading of Packages:
